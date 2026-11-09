@@ -34,3 +34,11 @@ Em `app.js`, preencha `CONFIG.whatsapp` com o número oficial, incluindo país e
 A localização Piúma/ES, horário 08h–19h, métricas e depoimento reproduzem a referência visual. Confirme os dados comerciais, substitua os indicadores pelos números reais e informe o endereço completo antes de divulgar. O formulário de avaliação gera uma prévia; não publica comentários. O painel de diagnóstico é uma demonstração visual, não uma consulta a reparos reais.
 
 `build_pages.py` gera as oito páginas a partir de modelos compartilhados. Execute `python3 build_pages.py` após alterar esses modelos. O CSS e o JavaScript são compartilhados entre as páginas. A fonte Orbitron está incluída localmente; sua licença está em `assets/OFL.txt`.
+
+## Personalização e experiência no celular
+
+- Altere apenas `CONFIG.brandInitial` em `app.js` para substituir o **E** no núcleo animado. O tubo é feito em HTML/CSS, independente do desenho do fundo.
+- No celular e no tablet, o laboratório tem uma área própria, com o tubo visível, sem os painéis sobre o título. Os detalhes de componentes ficam recolhidos e podem ser expandidos.
+- O carrossel aceita swipe, arraste com mouse, setas, indicadores e teclado. A rolagem automática respeita interação, foco, visibilidade, pausa geral e movimento reduzido.
+- Cada serviço tem uma miniatura animada própria. A água tem queda mais rápida, turbulência, spray e ondulações, alinhadas ao recorte do laboratório.
+- O Canvas pausa quando o laboratório sai da tela no celular, reduzindo consumo de bateria.
