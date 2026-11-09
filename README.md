@@ -1,17 +1,18 @@
-# TechCell
+# CellFix
 
-Site estático multipáginas em português, inspirado na referência fornecida. HTML, CSS e JavaScript, sem dependências de execução e sem banco de dados.
+Site multipáginas estático em HTML, CSS e JavaScript. O visual foi substituído pela nova referência CellFix, com fonte de água, celular, iluminação ciano e detalhes em cobre.
 
 ## Páginas
 
-- `index.html`: laboratório interativo, carrossel de serviços, análise demonstrativa e acesso às etapas.
-- `servicos.html`: catálogo com busca, filtros e detalhes de cada serviço.
-- `processo.html`: quatro etapas interativas, com navegação por teclado e links diretos.
-- `diferenciais.html`: apresentação dos cuidados e compromissos do atendimento.
-- `sobre.html`: apresentação da TechCell.
-- `avaliacoes.html`: indicadores da referência e prévia local de comentário.
-- `faq.html`: busca e categorias de perguntas frequentes.
-- `contato.html`: formulário, mensagem copiável e localização regional.
+Início, Serviços, Sobre, Garantia, Contato, Processo de Reparo, Diferenciais, Avaliações e FAQ. Todas usam a mesma identidade e navegação. A fonte e o celular têm uma área própria no celular, mantendo o conteúdo legível e os serviços em um carrossel lateral.
+
+## Fonte interativa
+
+- Uma superfície WebGL aplica refração animada à água da imagem, queda contínua, ondulações na bacia e resposta ao cursor.
+- Canvas 2D complementa a cena com filetes de água, jato curvo, corrente, ondulações e respingos.
+- Passar o mouse perturba a corrente; clicar ou tocar cria ondas e gotas. O botão “Interagir com a fonte” e o teclado também permitem acionar a interação.
+- A imagem de fundo e o Canvas 2D continuam funcionando sem WebGL.
+- Há limite de resolução e quadros por segundo, pausa em abas ocultas ou com a fonte fora de vista no celular, controle de pausa e respeito a `prefers-reduced-motion`.
 
 ## Executar
 
@@ -19,26 +20,14 @@ Site estático multipáginas em português, inspirado na referência fornecida. 
 python3 -m http.server 3000
 ```
 
-Abra `http://localhost:3000`. Todos os arquivos podem ser hospedados diretamente na raiz em Vercel, GitHub Pages ou outro servidor estático, sem build.
+Abra `http://localhost:3000`. Não precisa instalar dependências, compilar ou configurar banco de dados. Pode publicar a pasta diretamente em hospedagem estática.
 
-## Animações
+## Personalizar
 
-A arte `assets/laboratorio.png` foi recriada a partir da referência. Camadas de Canvas 2D adicionam corrente e queda de água, respingos, reflexos, partículas holográficas e fluxo de energia no tubo. CSS anima o núcleo do reator, o scan, os ícones, os painéis e a iluminação dos controles.
+- `build_pages.py` contém os modelos das nove páginas. Após editá-lo, execute `python3 build_pages.py`.
+- `styles.css` contém a identidade visual e as adaptações para desktop, tablet e celular.
+- `app.js` contém a interação da fonte, buscas, filtros, carrossel, modais e formulários.
+- `assets/cellfix-fonte.png` é a composição de fundo recriada a partir da imagem fornecida.
+- Em `app.js`, preencha `CONFIG.whatsapp` com o número oficial, incluindo país e DDD, apenas dígitos. Sem esse número, o formulário prepara uma mensagem copiável; com ele, também permite abrir a conversa no WhatsApp.
 
-As camadas acompanham o recorte da imagem em cada viewport. O renderizador limita a densidade de pixels e os quadros por segundo, e pausa quando a aba fica oculta. Há controle para pausar os efeitos e respeito a `prefers-reduced-motion`.
-
-## Configurar a empresa
-
-Em `app.js`, preencha `CONFIG.whatsapp` com o número oficial, incluindo país e DDD, somente dígitos. O botão para enviar a mensagem ao WhatsApp aparece quando esse número está configurado. Sem o número, o visitante pode preparar e copiar a mensagem. O site não envia, armazena ou acompanha solicitações.
-
-A localização Piúma/ES, horário 08h–19h, métricas e depoimento reproduzem a referência visual. Confirme os dados comerciais, substitua os indicadores pelos números reais e informe o endereço completo antes de divulgar. O formulário de avaliação gera uma prévia; não publica comentários. O painel de diagnóstico é uma demonstração visual, não uma consulta a reparos reais.
-
-`build_pages.py` gera as oito páginas a partir de modelos compartilhados. Execute `python3 build_pages.py` após alterar esses modelos. O CSS e o JavaScript são compartilhados entre as páginas. A fonte Orbitron está incluída localmente; sua licença está em `assets/OFL.txt`.
-
-## Personalização e experiência no celular
-
-- Altere apenas `CONFIG.brandInitial` em `app.js` para substituir o **E** no núcleo animado. O tubo é feito em HTML/CSS, independente do desenho do fundo.
-- No celular e no tablet, o laboratório tem uma área própria, com o tubo visível, sem os painéis sobre o título. Os detalhes de componentes ficam recolhidos e podem ser expandidos.
-- O carrossel aceita swipe, arraste com mouse, setas, indicadores e teclado. A rolagem automática respeita interação, foco, visibilidade, pausa geral e movimento reduzido.
-- Cada serviço tem uma miniatura animada própria. A água tem queda mais rápida, turbulência, spray e ondulações, alinhadas ao recorte do laboratório.
-- O Canvas pausa quando o laboratório sai da tela no celular, reduzindo consumo de bateria.
+Os formulários não armazenam dados. O formulário de avaliação exibe uma prévia e não publica comentários. Os dados comerciais e os indicadores das páginas internas são conteúdo demonstrativo das referências anteriores e devem ser confirmados antes da divulgação. A nova referência não contém telefone nem endereço completo; esses dados não foram inventados.

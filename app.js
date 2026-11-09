@@ -1,16 +1,9 @@
 'use strict';
 
 // Add the official business number here, with country and area codes.
-const CONFIG = { brandInitial: 'E', whatsapp: '', location: 'Piúma – ES' };
+const CONFIG = { whatsapp: '', location: 'Piúma – ES' };
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const services = [
-  { id:'tela', title:'Troca de Tela', description:'Display trincado, manchas ou falhas no toque. Avaliação do display e touch, substituição e testes de imagem e sensibilidade.' },
-  { id:'bateria', title:'Troca de Bateria', description:'Energia para acompanhar o seu dia. Análise de autonomia e substituição da bateria conforme a necessidade do aparelho.' },
-  { id:'camera', title:'Câmera', description:'Volte a registrar cada detalhe. Diagnóstico de foco, imagem e funcionamento das câmeras frontal e traseira.' },
-  { id:'conector', title:'Conector', description:'Conexão estável e carregamento eficiente. Inspeção do conector, circuito de carga e acessórios utilizados no carregamento.' },
-  { id:'sistema', title:'Sistema', description:'Seu celular funcionando em sintonia. Avaliação de travamentos, desempenho e falhas de software, preservando os cuidados com seus dados.' },
-  { id:'outros', title:'Outros Reparos', description:'Soluções para cada componente. Botões, áudio, sensores e reparos de placa. Conte para a equipe o que aconteceu.' }
-];
+const services = [{"id": "tela", "title": "Troca de Tela", "description": "Avaliação do display e touch, substituição e testes de imagem e sensibilidade."}, {"id": "bateria", "title": "Troca de Bateria", "description": "Análise de autonomia e substituição da bateria conforme a necessidade do aparelho."}, {"id": "limpeza", "title": "Limpeza Técnica", "description": "Remoção de resíduos, avaliação de oxidação e limpeza técnica, conforme a necessidade do aparelho."}, {"id": "camera", "title": "Câmera", "description": "Diagnóstico de foco, imagem e funcionamento das câmeras frontal e traseira."}, {"id": "conector", "title": "Conector", "description": "Inspeção do conector, circuito de carga e acessórios utilizados no carregamento."}, {"id": "sistema", "title": "Sistema", "description": "Avaliação de travamentos, desempenho e falhas de software, preservando os cuidados com seus dados."}, {"id": "outros", "title": "Outros Reparos", "description": "Botões, áudio, sensores e reparos de placa. Conte para a equipe o que aconteceu."}];
 const steps = [
   ['Diagnóstico','Entendemos os sinais do seu aparelho e identificamos os componentes que precisam de atenção.','Avaliação completa e sem custo.','M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0m-2 5 7 7'],
   ['Orçamento','Você recebe as informações sobre o serviço, as peças e o prazo antes de decidir.','Transparente e sem surpresa.','M3 3h18v14H9l-6 4ZM7 8h10M7 12h7'],
@@ -18,14 +11,13 @@ const steps = [
   ['Entrega','Conferimos as funções do aparelho e orientamos sobre o serviço e os cuidados após o reparo.','Seu celular pronto, testado e garantido.','m12 1 10 6v11l-10 5-10-5V7Zm0 0v11m0 11V12M2 7l10 5 10-5']
 ];
 const pages = [
-  ['index.html','Início','Tecnologia que revive seu celular'],['servicos.html','Serviços','Tela bateria câmera conector sistema reparos'],
+  ['garantia.html','Garantia','Segurança condições do serviço suporte'],['index.html','Início','Tecnologia que revive seu celular'],['servicos.html','Serviços','Tela bateria câmera conector sistema reparos'],
   ['diferenciais.html','Diferenciais','Precisão tecnologia segurança confiança'],['processo.html','Processo de reparo','Diagnóstico orçamento reparo entrega'],
-  ['sobre.html','Sobre a TechCell','Assistência técnica em Piúma'],['avaliacoes.html','Avaliações','Experiências e opiniões'],
+  ['sobre.html','Sobre a CellFix','Assistência técnica em Piúma'],['avaliacoes.html','Avaliações','Experiências e opiniões'],
   ['faq.html','Dúvidas frequentes','Prazos dados pagamento peças'],['contato.html','Contato','Atendimento orçamento localização WhatsApp']
 ];
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
-$$('[data-brand-initial]').forEach(node=>{node.textContent=Array.from(CONFIG.brandInitial.trim().toUpperCase())[0]||'E'});
 const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 let toastTimer;
 function toast(message) {
@@ -55,7 +47,7 @@ $$('dialog').forEach(dialog=>{
   dialog.addEventListener('click',e=>{if(startedOutside&&outside(e))dialog.close();startedOutside=false});
   dialog.addEventListener('close',()=>{document.body.classList.remove('modal-open');dialogTrigger?.focus({preventScroll:true})});
 });
-$('[data-notifications]').addEventListener('click',()=>toast('Atendimento: 08h às 19h. Consulte os dias de funcionamento e o atendimento em feriados com a equipe.'));
+$('[data-notifications]')?.addEventListener('click',()=>toast('Atendimento: 08h às 19h. Consulte os dias de funcionamento e o atendimento em feriados com a equipe.'));
 
 // Actual local pages, search results and service deep links.
 function renderSearch(){
@@ -224,14 +216,14 @@ if(contactForm){
     e.preventDefault();if(!validTrimmed(contactForm))return;
     const data=Object.fromEntries([...new FormData(contactForm)].map(([k,v])=>[k,v.trim()]));
     const service=services.find(s=>s.id===data.service)?.title||data.service;
-    preparedMessage=`Olá, TechCell! Gostaria de solicitar um diagnóstico.\n\nNome: ${data.name}\nMarca: ${data.brand}\nModelo: ${data.model}\nServiço: ${service}\n\nProblema: ${data.problem}\n\nPodem me informar sobre o orçamento e o prazo?`;
+    preparedMessage=`Olá, CellFix! Gostaria de solicitar um diagnóstico.\n\nNome: ${data.name}\nMarca: ${data.brand}\nModelo: ${data.model}\nServiço: ${service}\n\nProblema: ${data.problem}\n\nPodem me informar sobre o orçamento e o prazo?`;
     const feedback=$('#contact-feedback');feedback.hidden=false;$('textarea',feedback).value=preparedMessage;
     $('p',feedback).textContent='Mensagem preparada. Confira os dados antes de compartilhar com a equipe.';
     if(/^\d{10,15}$/.test(CONFIG.whatsapp)){
       $('#send-contact').href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(preparedMessage)}`;$('#send-contact').hidden=false;
     }
     feedback.scrollIntoView({block:'nearest',behavior:reducedMotion.matches?'auto':'smooth'});
-    contactForm.dispatchEvent(new CustomEvent('techcell:contact',{bubbles:true,detail:data}));
+    contactForm.dispatchEvent(new CustomEvent('cellfix:contact',{bubbles:true,detail:data}));
   });
   contactForm.addEventListener('input',()=>$('#contact-feedback').hidden=true);
   contactForm.addEventListener('change',()=>$('#contact-feedback').hidden=true);
@@ -251,115 +243,158 @@ $$('.hover-light').forEach(card=>card.addEventListener('pointermove',e=>{
   const r=card.getBoundingClientRect();card.style.setProperty('--light-x',e.clientX-r.left+'px');card.style.setProperty('--light-y',e.clientY-r.top+'px');
 }));
 
-// Flowing water, moving reflections, hologram particles and reactor energy.
-// Positions use the artwork's native 1672 × 941 coordinate system, so overlays
-// follow CSS background-size:cover rather than drifting away from the scene.
-const canvas=$('#lab-effects'),ctx=canvas.getContext('2d',{alpha:true});
-const labWorld=$('.lab-world'),labStage=$('.lab-stage'),reactor=$('.tube-reactor');
-let stageMounted=false,stageVisible=true;
-let paused=false,animationFrame=0,lastFrame=0,visualTime=0,previousTime=0,viewW=0,viewH=0,pixelRatio=1;
-function mountScene(){
-  const shouldMount=Boolean(labStage&&innerWidth<=960);
-  if(shouldMount!==stageMounted){
-    if(shouldMount)labStage.append(labWorld);else document.body.prepend(labWorld);
-    stageMounted=shouldMount;
-  }
+// A real-time water surface: texture refraction, falling current, fountain jets,
+// ripples and ballistic spray. No network or backend is needed.
+const world=$('.visual-world'),stage=$('.mobile-fountain'),canvas=$('#lab-effects');
+const ctx=canvas.getContext('2d',{alpha:true}),surface=$('#water-surface');
+let paused=false,frameId=0,lastPaint=0,previousTime=0,time=0,width=0,height=0,dpr=1,embedded=false,visible=true;
+let transform={scale:1,x:0,y:0},pointer={x:-10000,y:-10000,strength:0},lastPointer=0;
+let ripples=[],spray=[],lastImpact=-100,impact={x:.55,y:.73};
+const random=i=>{const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v)};
+const gl=surface.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false,powerPreference:'low-power',preserveDrawingBuffer:false});
+let program=null,uniforms={},textureReady=false;
+if(gl){
+ try{
+  const vertex=`attribute vec2 position;varying vec2 v_uv;void main(){v_uv=(position+1.0)*0.5;gl_Position=vec4(position,0.0,1.0);}`;
+  const fragment=`precision mediump float;varying vec2 v_uv;uniform sampler2D image;uniform vec4 crop;uniform float t;uniform vec3 mouse;uniform vec3 impact;
+  float noise(vec2 p){return sin(p.x*143.7+p.y*96.4)*sin(p.x*39.7-p.y*157.1);}
+  void main(){
+   vec2 uv=vec2(v_uv.x,1.0-v_uv.y)*crop.zw+crop.xy;
+   float fall=smoothstep(.65,.69,uv.x)*(1.0-smoothstep(.775,.805,uv.x))*(1.0-smoothstep(.59,.64,uv.y));
+   float pool=(1.0-smoothstep(.8,1.15,length((uv-vec2(.60,.738))/vec2(.34,.115))));
+   float ring=exp(-abs(length((uv-vec2(.53,.565))/vec2(.18,.145))-1.0)*13.0);
+   float wet=max(max(fall,pool),ring*.75);
+   float phone=(1.0-smoothstep(.05,.085,abs(uv.x-(.72-.36*uv.y))))*smoothstep(.18,.22,uv.y)*(1.0-smoothstep(.72,.78,uv.y));
+   wet*=1.0-phone*.95;
+   if(wet<.015){gl_FragColor=vec4(0.0);return;}
+   vec2 d=vec2(0.0);
+   d.x=fall*(sin(uv.y*110.0-t*10.0+uv.x*230.0)*.0007+sin(uv.y*290.0-t*23.0)*.0004);
+   d.y=fall*(sin(uv.y*150.0-t*15.0+uv.x*170.0)*.0015+sin(uv.y*310.0-t*27.0)*.0005);
+   float dist=length((uv-vec2(.59,.735))*vec2(1.0,2.5));
+   d+=pool*vec2(sin(dist*150.0-t*5.0),cos(dist*140.0-t*4.5))*.0009;
+   d+=ring*vec2(sin(uv.y*130.0+t*3.0),cos(uv.x*150.0-t*6.0))*.0006;
+   vec2 m=uv-mouse.xy;float md=length(m);float wake=sin(md*185.0-t*7.0)*exp(-md*14.0)*mouse.z;
+   d+=normalize(m+vec2(.0001))*wake*.0045*wet;
+   float age=max(0.0,t-impact.z);float radius=age*.12;vec2 hit=uv-impact.xy;
+   float wave=exp(-pow((length(hit)-radius)*65.0,2.0))*exp(-age*1.0)*sin(length(hit)*160.0-age*12.0);
+   d+=normalize(hit+vec2(.0001))*wave*.012*wet;
+   vec3 color=texture2D(image,clamp(uv+d,vec2(0.0),vec2(1.0))).rgb;
+   float highlight=max(0.0,sin(uv.y*185.0-t*13.0+uv.x*230.0));
+   color+=vec3(.015,.05,.06)*highlight*fall;
+   color+=vec3(.005,.025,.03)*max(0.0,wake)*wet;
+   gl_FragColor=vec4(color,clamp(wet,0.0,1.0));
+  }`;
+  function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error('Water shader unavailable');return s;}
+  program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);
+  if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error('Water surface unavailable');
+  gl.useProgram(program);const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const attribute=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(attribute);gl.vertexAttribPointer(attribute,2,gl.FLOAT,false,0,0);
+  ['crop','t','mouse','impact'].forEach(name=>uniforms[name]=gl.getUniformLocation(program,name));
+  const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  const image=new Image();image.onload=()=>{try{gl.bindTexture(gl.TEXTURE_2D,texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);textureReady=true;surface.style.opacity='1';draw(time)}catch{surface.style.opacity='0'}};image.src='assets/cellfix-fonte.png';
+ }catch{program=null;surface.style.opacity='0'}
+}else surface.style.display='none';
+if(!textureReady)surface.style.opacity='0';
+surface.addEventListener('webglcontextlost',event=>{event.preventDefault();textureReady=false;surface.style.opacity='0'});
+function mountWorld(){
+ const next=Boolean(stage&&innerWidth<=960);
+ if(next!==embedded){if(next)stage.append(world);else document.body.prepend(world);embedded=next;}
 }
-function resizeEffects(){
-  mountScene();
-  const bounds=labWorld.getBoundingClientRect();
-  viewW=bounds.width;viewH=bounds.height;pixelRatio=Math.min(devicePixelRatio||1,1.5);
-  canvas.width=Math.round(viewW*pixelRatio);canvas.height=Math.round(viewH*pixelRatio);
-  if(stageMounted){['left','top','width','height'].forEach(property=>reactor.style.removeProperty(property))}
-  else{
-    const scale=Math.max(viewW/1672,viewH/941),ox=(viewW-1672*scale)/2,oy=(viewH-941*scale)/2;
-    reactor.style.left=ox+1434*scale+'px';reactor.style.top=oy+159*scale+'px';reactor.style.width=126*scale+'px';reactor.style.height=237*scale+'px';
-  }
-  if(paused||reducedMotion.matches)drawEffects(0);
-  syncEffects();
+function resizeWorld(){
+ mountWorld();const r=world.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,1.25);
+ canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);surface.width=Math.round(width);surface.height=Math.round(height);
+ const scale=embedded?height/720:Math.max(width/1280,height/720);
+ transform={scale,x:embedded?(width-1280*scale)*.6:(width-1280*scale)/2,y:embedded?0:(height-720*scale)/2};
+ if(gl&&program)gl.viewport(0,0,surface.width,surface.height);
+ draw(time);sync();
 }
-const hash=i=>{const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v)};
-function stream(t,x,y,length,width,count,seed){
-  for(let i=0;i<count;i++){
-    const r=hash(i+seed),u=i/(count-1),speed=.55+r*.65;
-    const head=(t*speed+r)%1,tail=Math.max(0,head-.25-r*.14);
-    const ox=x+u*width,oy=y+Math.sin(u*Math.PI)*-9;
-    ctx.beginPath();
-    for(let j=0;j<=9;j++){
-      const p=tail+(head-tail)*j/9;
-      const px=ox-13*Math.sin(p*Math.PI*.6)+Math.sin(t*4.5+p*12+i)*(1+p*3);
-      const py=oy+length*p;
-      if(j===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
-    }
-    ctx.globalAlpha=(.35+r*.55)*(1-head*.45);ctx.strokeStyle=i%4===0?'#e4ffff':'#38e9ff';ctx.lineWidth=1+r*2.2;
-    ctx.shadowColor='#16eaff';ctx.shadowBlur=6;ctx.stroke();
-    if(head>.8){ctx.globalAlpha=(1-head)*1.2;ctx.beginPath();ctx.ellipse(ox-10,oy+length,3+head*3,1,0,0,Math.PI*2);ctx.stroke()}
-  }
+function shaderWater(t){
+ if(!gl||!program||!textureReady)return;
+ gl.useProgram(program);const {scale:s,x,y}=transform;
+ gl.uniform4f(uniforms.crop,-x/(1280*s),-y/(720*s),width/(1280*s),height/(720*s));
+ gl.uniform1f(uniforms.t,t);gl.uniform3f(uniforms.mouse,pointer.x/1280,pointer.y/720,pointer.strength);
+ gl.uniform3f(uniforms.impact,impact.x,impact.y,lastImpact);gl.drawArrays(gl.TRIANGLES,0,6);
 }
-function drawEffects(t){
-  if(!ctx)return;
-  ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);ctx.clearRect(0,0,viewW,viewH);
-  const scale=stageMounted?viewH/941:Math.max(viewW/1672,viewH/941);
-  const ox=stageMounted?viewW-1672*scale:(viewW-1672*scale)/2,oy=stageMounted?0:(viewH-941*scale)/2;
-  ctx.translate(ox,oy);ctx.scale(scale,scale);ctx.globalCompositeOperation='lighter';
-  stream(t,270,548,144,64,46,18);stream(t+.9,1365,550,147,63,46,113);stream(t+.4,764,670,67,185,42,284);
-  // Turbulent water sheets and rising spray make the continuous current visible.
-  ctx.shadowColor='#4cf1ff';ctx.shadowBlur=6;
-  for(let i=0;i<36;i++){
-    const p=(t*.8+hash(i+91))%1,x=764+hash(i+38)*190;
-    ctx.globalAlpha=(1-p)*.38;ctx.fillStyle='#b1ffff';ctx.beginPath();
-    ctx.arc(x+Math.sin(t*3+i)*9,730-p*23,1+hash(i+24)*1.7,0,Math.PI*2);ctx.fill();
-  }
-  for(let i=0;i<12;i++){
-    ctx.globalAlpha=.1+Math.sin(t*3+i)*.045;ctx.strokeStyle='#49e9ff';ctx.lineWidth=3;
-    const x=770+i*15;ctx.beginPath();ctx.moveTo(x,677);ctx.bezierCurveTo(x+Math.sin(t*4+i)*5,695,x-9,714,x-3,734);ctx.stroke();
-  }
-  // Orange light travels around the phone; each point follows the same orbit.
-  ctx.shadowBlur=8;ctx.shadowColor='#ff8b00';
-  for(let i=0;i<18;i++){
-    const a=t*.6+i*Math.PI*2/18,c=Math.cos(a),s=Math.sin(a);
-    const x=885+c*260,y=370+s*95-c*90;
-    ctx.globalAlpha=.2+Math.max(0,s)*.5;ctx.fillStyle=i%4?'#ff9c32':'#fff0cc';ctx.beginPath();ctx.arc(x,y,i%5===0?2.1:1.1,0,Math.PI*2);ctx.fill();
-  }
-  // Transparent scan lines and falling cyan hologram particles.
-  ctx.shadowColor='#54fbff';ctx.shadowBlur=4;
-  for(let i=0;i<45;i++){
-    const r=hash(i+480),x=650+r*455,y=110+((t*(25+hash(i+21)*55)+hash(i+13)*450)%450);
-    ctx.globalAlpha=.08+hash(i+7)*.32;ctx.strokeStyle='#94fbff';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+5+hash(i+38)*15);ctx.stroke();
-  }
-  // Upward energy stream in the glass tube, aligned with the actual chamber.
-  ctx.shadowColor='#ff9c19';ctx.shadowBlur=6;
-  for(let i=0;i<27;i++){
-    const r=hash(i+18),p=(t*(.5+r*.3)+hash(i+27))%1,x=1486+Math.sin(p*9+i)*30+r*28,y=379-p*204;
-    ctx.globalAlpha=.25+Math.sin(p*Math.PI)*.5;ctx.fillStyle='#ffbf61';ctx.fillRect(x,y,1,4+r*9);
-  }
-  // Ripples, thin flowing rings and a moving reflection on the front rim.
-  ctx.shadowBlur=3;ctx.shadowColor='#28edff';ctx.strokeStyle='#75fbff';
-  for(let i=0;i<5;i++){
-    const p=(t*.33+i/5)%1;ctx.globalAlpha=(1-p)*.34;ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(838,562,110+p*235,12+p*27,0,0,Math.PI*2);ctx.stroke();
-  }
-  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.shadowBlur=0;
+function respond(x,y,strength=.25){
+ const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy);
+ if(pointer.strength&&d<85&&d>1){const force=(1-d/85)*pointer.strength;return{x:x+dx/(d||1)*force*12*strength,y:y+dy/(d||1)*force*12*strength};}
+ return{x,y};
 }
-function effectFrame(now){
-  if(paused||reducedMotion.matches||document.hidden||(stageMounted&&!stageVisible)){animationFrame=0;return;}
-  animationFrame=requestAnimationFrame(effectFrame);
-  if(now-lastFrame<(viewW<700?33:24))return;
-  if(previousTime)visualTime+=Math.min((now-previousTime)/1000,.08);previousTime=now;lastFrame=now;drawEffects(visualTime);
+function fallingWater(t){
+ for(let i=0;i<78;i++){
+  const r=random(i+100),x=858+r*135,p=(t*(.55+r*.65)+random(i+44))%1;
+  const y0=-45+random(i+11)*45,y=y0+p*477,tail=18+r*54;
+  let a=respond(x+Math.sin(t*4+i)*1.5,y,.7),b=respond(x+Math.sin(t*4+i-1)*1.5,y-tail,.7);
+  ctx.globalAlpha=(.1+r*.3)*Math.sin(Math.min(1,p+.1)*Math.PI*.9);ctx.strokeStyle=i%5===0?'#d8ffff':'#51dce9';ctx.lineWidth=.7+r*1.4;ctx.shadowColor='#2dd2e9';ctx.shadowBlur=2;
+  ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  if(p>.83){ctx.globalAlpha=(1-p)*.8;ctx.beginPath();ctx.ellipse(x,442+random(i+3)*8,5+p*5,1.4,0,0,Math.PI*2);ctx.stroke();}
+ }
 }
-function syncEffects(){
-  cancelAnimationFrame(animationFrame);animationFrame=0;previousTime=0;
-  if(!paused&&!reducedMotion.matches&&!document.hidden&&(!stageMounted||stageVisible))animationFrame=requestAnimationFrame(effectFrame);
-  else drawEffects(visualTime);
+function waterArc(t){
+ for(let i=0;i<45;i++){
+  const p=(t*.38+i/45)%1,a=p*Math.PI*2,r=1+Math.sin(t*2+i)*.01;
+  const x=675+Math.cos(a)*191*r,y=404+Math.sin(a)*58+Math.cos(a)*40;
+  const previous=a-.1;
+  const b=respond(x,y,.6),c=respond(675+Math.cos(previous)*191,404+Math.sin(previous)*58+Math.cos(previous)*40,.6);
+  ctx.globalAlpha=.13+Math.max(0,Math.sin(a))*.38;ctx.lineWidth=.7+random(i)*1.5;ctx.strokeStyle=i%4?'#6ce1eb':'#e6ffff';ctx.shadowColor='#67eaff';ctx.shadowBlur=2;
+  ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.quadraticCurveTo((c.x+b.x)/2,b.y+2,b.x,b.y);ctx.stroke();
+ }
+ // The arching fountain jet flows along a continuous quadratic path.
+ for(let i=0;i<27;i++){
+  const p=(t*.5+i/27)%1,tail=Math.max(0,p-.045);
+  const curve=q=>({x:(1-q)*(1-q)*829+2*(1-q)*q*754+q*q*744,y:(1-q)*(1-q)*72+2*(1-q)*q*25+q*q*212});
+  const a=curve(tail),b=respond(...Object.values(curve(p)),.3);
+  ctx.globalAlpha=.2+random(i)*.35;ctx.strokeStyle=i%4?'#80d8e4':'#dbfbff';ctx.lineWidth=.7+random(i+2);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+ }
 }
-const motionButton=$('.motion-toggle');
-function updateMotion(){
-  document.documentElement.classList.toggle('motion-paused',paused);
-  motionButton.setAttribute('aria-pressed',String(paused));motionButton.textContent=paused?'Retomar animações':'Pausar animações';
-  motionButton.setAttribute('aria-label',motionButton.textContent);syncEffects();
+function draw(t){
+ shaderWater(t);if(!ctx)return;
+ ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);ctx.translate(transform.x,transform.y);ctx.scale(transform.scale,transform.scale);ctx.globalCompositeOperation='lighter';
+ fallingWater(t);waterArc(t);ctx.shadowBlur=0;
+ // Expanding pond rings and bright little splashes keep the basin alive.
+ for(let i=0;i<6;i++){
+  const p=(t*.24+i/6)%1;ctx.globalAlpha=(1-p)*.17;ctx.strokeStyle='#8ceaf2';ctx.lineWidth=.8;ctx.beginPath();ctx.ellipse(750,526,40+p*267,9+p*33,0,0,Math.PI*2);ctx.stroke();
+ }
+ for(let i=0;i<26;i++){
+  const p=(t*.9+random(i+22))%1;ctx.globalAlpha=(1-p)*.25;ctx.fillStyle='#b4faff';ctx.beginPath();ctx.arc(868+random(i+7)*105+Math.sin(i+t)*5,449-p*12,random(i+8)*1.3+.5,0,Math.PI*2);ctx.fill();
+ }
+ ripples=ripples.filter(r=>t-r.born<2.5);ripples.forEach(r=>{const age=t-r.born;ctx.globalAlpha=Math.max(0,1-age/2.5)*.65;ctx.strokeStyle='#b8faff';ctx.lineWidth=1.1;ctx.beginPath();ctx.ellipse(r.x,r.y,9+age*95,3+age*28,0,0,Math.PI*2);ctx.stroke();});
+ spray=spray.filter(p=>t-p.born<1.8);spray.forEach(p=>{const age=t-p.born,x=p.x+p.vx*age,y=p.y+p.vy*age+120*age*age;ctx.globalAlpha=Math.max(0,1-age/1.8)*.7;ctx.fillStyle='#c6fbff';ctx.beginPath();ctx.arc(x,y,p.r,0,Math.PI*2);ctx.fill();});
+ ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
 }
-motionButton.addEventListener('click',()=>{paused=!paused;updateMotion()});
-document.addEventListener('visibilitychange',syncEffects);
-reducedMotion.addEventListener('change',syncEffects);
-let resizeFrame=0;addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(resizeEffects)});
-if(labStage)new IntersectionObserver(entries=>{stageVisible=entries[0].isIntersecting;syncEffects()},{rootMargin:'60px'}).observe(labStage);
-resizeEffects();syncEffects();
+function impactAt(x,y){
+ if(paused||reducedMotion.matches)return;
+ lastImpact=time;impact={x:x/1280,y:y/720};ripples.push({x,y,born:time});
+ for(let i=0;i<24;i++){const angle=-Math.PI+Math.random()*Math.PI,speed=30+Math.random()*95;spray.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-25,r:.6+Math.random()*1.4,born:time});}
+ if(spray.length>160)spray.splice(0,spray.length-160);
+}
+function worldPoint(e){const r=world.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)return null;return{x:(e.clientX-r.left-transform.x)/transform.scale,y:(e.clientY-r.top-transform.y)/transform.scale};}
+addEventListener('pointermove',e=>{
+ if(paused||reducedMotion.matches)return;
+ const p=worldPoint(e);if(!p||e.target.closest('a,button,input,select,textarea,dialog')){pointer.strength=0;return;}
+ pointer={...p,strength:1};lastPointer=performance.now();
+},{passive:true});
+document.addEventListener('pointerdown',e=>{
+ if(e.target.closest('a,button,input,select,textarea,dialog'))return;
+ const p=worldPoint(e);if(p)impactAt(p.x,p.y);
+},{passive:true});
+$('.fountain-control')?.addEventListener('click',()=>{impactAt(730,529);if(embedded)stage.scrollIntoView({block:'center',behavior:reducedMotion.matches?'auto':'smooth'})});
+stage?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();impactAt(740,535)}});
+function animate(now){
+ if(paused||reducedMotion.matches||document.hidden||(embedded&&!visible)){frameId=0;return;}
+ frameId=requestAnimationFrame(animate);if(now-lastPaint<33)return;
+ if(previousTime)time+=Math.min(.08,(now-previousTime)/1000);previousTime=now;lastPaint=now;
+ if(now-lastPointer>180)pointer.strength*=.92;
+ draw(time);
+}
+function sync(){
+ cancelAnimationFrame(frameId);frameId=0;previousTime=0;
+ if(!paused&&!reducedMotion.matches&&!document.hidden&&(!embedded||visible))frameId=requestAnimationFrame(animate);else draw(time);
+}
+const motionButton=$('.motion-toggle');motionButton.addEventListener('click',()=>{
+ paused=!paused;document.documentElement.classList.toggle('motion-paused',paused);motionButton.setAttribute('aria-pressed',String(paused));motionButton.textContent=paused?'Retomar animações':'Pausar animações';motionButton.setAttribute('aria-label',motionButton.textContent);sync();
+});
+let resizeFrame;addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(resizeWorld)});
+document.addEventListener('visibilitychange',sync);reducedMotion.addEventListener('change',sync);
+if(stage)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(stage);
+resizeWorld();
