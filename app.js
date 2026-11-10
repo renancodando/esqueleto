@@ -1,4 +1,4 @@
-/* CellFix — testes do aparelho no navegador. Sem dependências. */
+/* Assistência técnica — orçamento e testes do aparelho no navegador. Sem dependências. */
 (() => {
   'use strict';
 
@@ -162,7 +162,7 @@
   const ORDER = Object.keys(TESTS);
   let results = {};
   try {
-    results = JSON.parse(sessionStorage.getItem('cellfix-testes') || '{}') || {};
+    results = JSON.parse(sessionStorage.getItem('assistencia-testes') || '{}') || {};
   } catch (e) {
     results = {};
   }
@@ -172,7 +172,7 @@
   function setResult(id, value) {
     results[id] = value;
     try {
-      sessionStorage.setItem('cellfix-testes', JSON.stringify(results));
+      sessionStorage.setItem('assistencia-testes', JSON.stringify(results));
     } catch (e) {
       /* navegação privada: o resultado vale só enquanto a página estiver aberta */
     }
@@ -227,7 +227,7 @@
     const failed = names('falha'), passed = names('ok');
     if (!d.aparelho && !d.defeitos.length && !d.detalhes && !d.nome && !failed.length && !passed.length) return '';
 
-    const lines = [`Olá, CellFix!${d.nome ? ` Meu nome é ${d.nome}.` : ''}`];
+    const lines = [`Olá!${d.nome ? ` Meu nome é ${d.nome}.` : ''}`];
     lines.push(d.aparelho ? `Quero um orçamento para o meu ${d.aparelho}.` : 'Quero um orçamento para o meu celular.');
     if (d.defeitos.length) {
       lines.push('', 'O que está acontecendo:');
@@ -235,7 +235,7 @@
     }
     if (d.detalhes) lines.push('', `Detalhes: ${d.detalhes}`);
     if (failed.length || passed.length) {
-      lines.push('', 'Teste que fiz no site da CellFix:');
+      lines.push('', 'Teste que fiz no site:');
       if (failed.length) lines.push(`• Falhou: ${failed.join(', ')}`);
       if (passed.length) lines.push(`• Passou: ${passed.join(', ')}`);
     }

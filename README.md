@@ -1,11 +1,11 @@
-# CellFix
+# Assistência técnica de celulares
 
-Site da assistência técnica CellFix (Piúma – ES). Uma página só, em HTML, CSS e JavaScript puros:
+Site de uma assistência técnica de celulares em Piúma – ES, sem nome de marca. Uma página só, em HTML, CSS e JavaScript puros:
 sem dependências, sem build, cerca de 135 KB no total.
 
 ## O que tem na página
 
-- **Loja:** serviços, sobre a CellFix, como funciona, garantia, dúvidas e contato.
+- **Loja:** serviços, sobre a loja, como funciona, garantia, dúvidas e contato.
 - **Orçamento:** o visitante escolhe a marca, escreve o modelo e marca os defeitos. O site monta a
   mensagem, mostra como ela vai ficar e abre o WhatsApp com tudo pronto. Não precisa fazer teste nenhum.
 - **Teste do aparelho (opcional):** toque, pixels, som, vibração e bateria, em tela cheia. O que
@@ -29,6 +29,8 @@ Abra `http://localhost:3000`. Para publicar, basta hospedar a pasta (Vercel, Net
 
 ## Antes de divulgar
 
+- **Nome da loja:** o site não tem nome. Para incluir um, troque "Assistência Técnica" no topo de
+  `index.html` (classe `logo`), o `<title>` e a saudação da mensagem em `app.js` (`Olá!`).
 - **WhatsApp:** em `app.js`, preencha `CONFIG.whatsapp` com país + DDD + número, só dígitos
   (ex.: `5528999990000`). Sem o número, o WhatsApp abre com a mensagem pronta, mas pede para o
   visitante escolher o contato — ou seja, a mensagem não chega à loja.
