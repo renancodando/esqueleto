@@ -1,33 +1,39 @@
 # CellFix
 
-Site multipáginas estático em HTML, CSS e JavaScript. O visual foi substituído pela nova referência CellFix, com fonte de água, celular, iluminação ciano e detalhes em cobre.
+Site da assistência técnica CellFix (Piúma – ES). Uma página só, em HTML, CSS e JavaScript puros:
+sem dependências, sem build, cerca de 120 KB no total.
 
-## Páginas
+A ideia do site: ele **testa o celular do visitante**. A abertura é uma grade de teste de toque que
+pinta de verde onde o dedo passa, e a seção "Teste" roda cinco verificações em tela cheia — toque,
+pixels, som, vibração e bateria — e monta um laudo para enviar à loja.
 
-Início, Serviços, Sobre, Garantia, Contato, Processo de Reparo, Diferenciais, Avaliações e FAQ. Todas usam a mesma identidade e navegação. A fonte e o celular têm uma área própria no celular, mantendo o conteúdo legível e os serviços em um carrossel lateral.
-
-## Fonte interativa
-
-- Uma superfície WebGL aplica refração animada à água da imagem, queda contínua, ondulações na bacia e resposta ao cursor.
-- Canvas 2D complementa a cena com filetes de água, jato curvo, corrente, ondulações e respingos.
-- Passar o mouse perturba a corrente; clicar ou tocar cria ondas e gotas. O botão “Interagir com a fonte” e o teclado também permitem acionar a interação.
-- A imagem de fundo e o Canvas 2D continuam funcionando sem WebGL.
-- Há limite de resolução e quadros por segundo, pausa em abas ocultas ou com a fonte fora de vista no celular, controle de pausa e respeito a `prefers-reduced-motion`.
-
-## Executar
+## Rodar
 
 ```sh
 python3 -m http.server 3000
 ```
 
-Abra `http://localhost:3000`. Não precisa instalar dependências, compilar ou configurar banco de dados. Pode publicar a pasta diretamente em hospedagem estática.
+Abra `http://localhost:3000`. Para publicar, basta hospedar a pasta (Vercel, Netlify, GitHub Pages).
 
-## Personalizar
+## Arquivos
 
-- `build_pages.py` contém os modelos das nove páginas. Após editá-lo, execute `python3 build_pages.py`.
-- `styles.css` contém a identidade visual e as adaptações para desktop, tablet e celular.
-- `app.js` contém a interação da fonte, buscas, filtros, carrossel, modais e formulários.
-- `assets/cellfix-fonte.png` é a composição de fundo recriada a partir da imagem fornecida.
-- Em `app.js`, preencha `CONFIG.whatsapp` com o número oficial, incluindo país e DDD, apenas dígitos. Sem esse número, o formulário prepara uma mensagem copiável; com ele, também permite abrir a conversa no WhatsApp.
+- `index.html` — conteúdo: textos, serviços, dúvidas, contato
+- `styles.css` — identidade visual
+- `app.js` — grade de toque, os cinco testes e o laudo
+- `assets/` — fonte Bricolage Grotesque (licença OFL) e favicon
 
-Os formulários não armazenam dados. O formulário de avaliação exibe uma prévia e não publica comentários. Os dados comerciais e os indicadores das páginas internas são conteúdo demonstrativo das referências anteriores e devem ser confirmados antes da divulgação. A nova referência não contém telefone nem endereço completo; esses dados não foram inventados.
+## Antes de divulgar
+
+- **WhatsApp:** em `app.js`, preencha `CONFIG.whatsapp` com país + DDD + número, só dígitos.
+  Com o número, o botão do laudo abre a conversa já com o resultado; sem ele, o botão copia o texto.
+- **Endereço:** o site mostra só "Piúma – Espírito Santo". Inclua rua e número em `index.html`,
+  na seção `#contato`, e ajuste o link do mapa.
+- **Textos de serviço e garantia:** são descrições genéricas; preços e prazo de garantia não foram
+  informados e não aparecem no site.
+
+## Limites dos testes
+
+- Vibração só funciona em navegadores Android; no iPhone o site pede a resposta ao visitante.
+- A carga da bateria só aparece onde o navegador a informa (Chrome no Android); nos demais o teste
+  vira uma pergunta.
+- Nada é enviado nem salvo: o resultado fica na aba até o visitante copiar ou enviar o laudo.
