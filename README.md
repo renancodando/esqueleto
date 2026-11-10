@@ -1,11 +1,16 @@
 # CellFix
 
 Site da assistência técnica CellFix (Piúma – ES). Uma página só, em HTML, CSS e JavaScript puros:
-sem dependências, sem build, cerca de 120 KB no total.
+sem dependências, sem build, cerca de 135 KB no total.
 
-A ideia do site: ele **testa o celular do visitante**. A abertura é uma grade de teste de toque que
-pinta de verde onde o dedo passa, e a seção "Teste" roda cinco verificações em tela cheia — toque,
-pixels, som, vibração e bateria — e monta um laudo para enviar à loja.
+## O que tem na página
+
+- **Loja:** serviços, sobre a CellFix, como funciona, garantia, dúvidas e contato.
+- **Orçamento:** o visitante escolhe a marca, escreve o modelo e marca os defeitos. O site monta a
+  mensagem, mostra como ela vai ficar e abre o WhatsApp com tudo pronto. Não precisa fazer teste nenhum.
+- **Teste do aparelho (opcional):** toque, pixels, som, vibração e bateria, em tela cheia. O que
+  falhar já marca o defeito no orçamento e entra na mensagem.
+- **Abertura:** a grade ao fundo é o próprio teste de toque — pinta de verde onde o dedo passa.
 
 ## Rodar
 
@@ -17,23 +22,27 @@ Abra `http://localhost:3000`. Para publicar, basta hospedar a pasta (Vercel, Net
 
 ## Arquivos
 
-- `index.html` — conteúdo: textos, serviços, dúvidas, contato
+- `index.html` — conteúdo: textos, serviços, opções de defeito, dúvidas, contato
 - `styles.css` — identidade visual
-- `app.js` — grade de toque, os cinco testes e o laudo
+- `app.js` — grade de toque, os cinco testes e a mensagem de orçamento
 - `assets/` — fonte Bricolage Grotesque (licença OFL) e favicon
 
 ## Antes de divulgar
 
-- **WhatsApp:** em `app.js`, preencha `CONFIG.whatsapp` com país + DDD + número, só dígitos.
-  Com o número, o botão do laudo abre a conversa já com o resultado; sem ele, o botão copia o texto.
+- **WhatsApp:** em `app.js`, preencha `CONFIG.whatsapp` com país + DDD + número, só dígitos
+  (ex.: `5528999990000`). Sem o número, o WhatsApp abre com a mensagem pronta, mas pede para o
+  visitante escolher o contato — ou seja, a mensagem não chega à loja.
 - **Endereço:** o site mostra só "Piúma – Espírito Santo". Inclua rua e número em `index.html`,
   na seção `#contato`, e ajuste o link do mapa.
-- **Textos de serviço e garantia:** são descrições genéricas; preços e prazo de garantia não foram
-  informados e não aparecem no site.
+- **Textos:** os de serviços, sobre e garantia vêm do site anterior, reescritos. Preços e prazo de
+  garantia não foram informados e não aparecem. Confira se as condições descritas são as da loja.
 
 ## Limites dos testes
 
-- Vibração só funciona em navegadores Android; no iPhone o site pede a resposta ao visitante.
-- A carga da bateria só aparece onde o navegador a informa (Chrome no Android); nos demais o teste
+- **Vibração:** só navegadores Android deixam um site vibrar o aparelho, e mesmo neles o sistema
+  ignora o pedido com modo silencioso, Não Perturbe, economia de bateria ou vibração ao toque
+  desligada. Navegadores embutidos (Instagram, WhatsApp) também costumam bloquear. No iPhone não
+  existe vibração para sites; o teste tenta um toque háptico leve e, na dúvida, pergunta ao visitante.
+- **Bateria:** a carga só aparece onde o navegador a informa (Chrome no Android); nos demais o teste
   vira uma pergunta.
-- Nada é enviado nem salvo: o resultado fica na aba até o visitante copiar ou enviar o laudo.
+- Nada é enviado nem salvo: tudo fica na aba até o visitante enviar ou copiar a mensagem.

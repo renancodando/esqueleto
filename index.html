@@ -6,7 +6,7 @@
     <title>CellFix — assistência técnica de celulares em Piúma</title>
     <meta
       name="description"
-      content="Teste o toque, a tela, o som, a vibração e a bateria do seu celular aqui mesmo e envie o laudo para a CellFix, em Piúma – ES."
+      content="Troca de tela, bateria, conector, câmera e reparos em celulares em Piúma – ES. Conte o defeito e receba o orçamento pelo WhatsApp."
     />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -26,38 +26,167 @@
         CellFix
       </a>
       <nav aria-label="Seções">
-        <a href="#teste">Teste</a>
         <a href="#servicos">Serviços</a>
-        <a href="#como-funciona">Como funciona</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#garantia">Garantia</a>
+        <a href="#teste">Teste</a>
         <a href="#duvidas">Dúvidas</a>
         <a href="#contato">Contato</a>
       </nav>
+      <a class="btn btn-small" href="#orcamento">Pedir orçamento</a>
     </header>
 
     <main id="conteudo">
       <section class="hero" id="inicio">
         <canvas id="hero-grid" aria-hidden="true"></canvas>
         <div class="hero-copy">
-          <h1>Este site testa o seu celular.</h1>
+          <h1>Assistência técnica de celulares em Piúma.</h1>
           <p class="lead">
-            <span class="touch-only">Passe o dedo de um lado para o outro.</span>
-            <span class="mouse-only">Passe o mouse pela tela.</span>
-            Cada quadrado que fica verde é um ponto onde o toque funciona. São cinco testes, um minuto, e o laudo vai
-            direto para a CellFix, em Piúma.
+            Diagnóstico preciso, reparo rápido e garantia real. Conte o que aconteceu com o seu aparelho e receba o
+            orçamento pelo WhatsApp.
           </p>
           <p class="hero-actions">
-            <a class="btn" href="#teste">Começar o teste</a>
-            <span class="meter" aria-live="polite"><strong id="hero-pct">0%</strong> desta tela testada</span>
+            <a class="btn" href="#orcamento">Pedir orçamento</a>
+            <a class="btn btn-line" href="#teste">Testar meu celular</a>
           </p>
+          <p class="meter" aria-live="polite">
+            Esta grade é o nosso teste de toque.
+            <span class="touch-only">Passe o dedo de um lado para o outro:</span>
+            <span class="mouse-only">Passe o mouse:</span>
+            <strong id="hero-pct">0%</strong> pintado.
+          </p>
+        </div>
+      </section>
+
+      <section class="block" id="servicos">
+        <div class="wrap">
+          <h2>O que a gente conserta.</h2>
+          <ul class="services">
+            <li>
+              <h3>Troca de tela</h3>
+              <p>Display trincado, manchas, linhas ou falhas no toque.</p>
+              <a href="#orcamento" data-defeito="tela-trincada">Orçar troca de tela</a>
+            </li>
+            <li>
+              <h3>Troca de bateria</h3>
+              <p>Carga que acaba cedo, aparelho que desliga sozinho ou bateria estufada.</p>
+              <a href="#orcamento" data-defeito="bateria">Orçar troca de bateria</a>
+            </li>
+            <li>
+              <h3>Limpeza técnica</h3>
+              <p>Poeira, oxidação e sujeira tratadas com cuidado em cada componente.</p>
+              <a href="#orcamento" data-defeito="agua">Orçar limpeza</a>
+            </li>
+            <li>
+              <h3>Câmera</h3>
+              <p>Foto embaçada, foco que não trava ou lente quebrada.</p>
+              <a href="#orcamento" data-defeito="camera">Orçar câmera</a>
+            </li>
+            <li>
+              <h3>Conector de carga</h3>
+              <p>Cabo que só funciona em uma posição ou aparelho que não carrega.</p>
+              <a href="#orcamento" data-defeito="carga">Orçar conector</a>
+            </li>
+            <li>
+              <h3>Sistema</h3>
+              <p>Travamentos, reinício em loop e aparelho preso na tela de início.</p>
+              <a href="#orcamento" data-defeito="lento">Orçar sistema</a>
+            </li>
+            <li>
+              <h3>Outros reparos</h3>
+              <p>Alto-falante, microfone, botões, vibração e o que mais parar de funcionar.</p>
+              <a href="#orcamento" data-defeito="outro">Orçar outro reparo</a>
+            </li>
+            <li class="unsure">
+              <h3>Não sabe qual é o problema?</h3>
+              <p>A gente ajuda a descobrir. Faça o teste do site ou conte o que está acontecendo.</p>
+              <a href="#teste">Fazer o teste</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block" id="sobre">
+        <div class="wrap split">
+          <div>
+            <h2>Por trás de cada tela existe uma conexão.</h2>
+            <p class="intro">
+              Trabalho, memórias, conversas e momentos importantes. O celular faz parte da sua rotina e merece atenção em
+              cada detalhe.
+            </p>
+            <p class="intro">
+              A CellFix é uma assistência técnica de Piúma, no Espírito Santo. Reunimos diagnóstico, reparo e orientação
+              para você entender o que o seu aparelho precisa. O atendimento começa com uma conversa e segue com
+              informação clara em cada etapa.
+            </p>
+          </div>
+          <ul class="principles">
+            <li>
+              <h3>Entender antes de reparar</h3>
+              <p>Avaliamos o aparelho para achar a origem do problema antes de indicar qualquer serviço.</p>
+            </li>
+            <li>
+              <h3>Cuidar de cada componente</h3>
+              <p>Atenção aos procedimentos e às particularidades de cada modelo.</p>
+            </li>
+            <li>
+              <h3>Atender de pessoa para pessoa</h3>
+              <p>Você fala direto com quem vai cuidar do seu celular, do primeiro contato à entrega.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block" id="como-funciona">
+        <div class="wrap">
+          <h2>Como funciona.</h2>
+          <ol class="steps">
+            <li>
+              <h3>Diagnóstico</h3>
+              <p>Analisamos o problema e explicamos o que encontramos, com valor e prazo para você decidir.</p>
+            </li>
+            <li>
+              <h3>Reparo</h3>
+              <p>Com o seu aceite, executamos o serviço com precisão e testamos o aparelho de novo.</p>
+            </li>
+            <li>
+              <h3>Entrega</h3>
+              <p>Você confere tudo funcionando e leva o celular de volta, com a garantia do serviço.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="block" id="garantia">
+        <div class="wrap">
+          <h2>Cuidado que continua depois do reparo.</h2>
+          <ul class="pillars">
+            <li>
+              <h3>Garantia do serviço</h3>
+              <p>As condições valem para o reparo e para as peças, e são combinadas com você conforme o modelo.</p>
+            </li>
+            <li>
+              <h3>Informação transparente</h3>
+              <p>Antes de autorizar, você confirma o orçamento, o prazo e os detalhes do procedimento.</p>
+            </li>
+            <li>
+              <h3>Conferência na entrega</h3>
+              <p>Você testa o aparelho na loja e guarda o comprovante do atendimento.</p>
+            </li>
+            <li>
+              <h3>Suporte direto</h3>
+              <p>Se precisar de ajuda depois, é só dizer qual serviço foi feito e o que está acontecendo.</p>
+            </li>
+          </ul>
         </div>
       </section>
 
       <section class="block" id="teste">
         <div class="wrap">
-          <h2>Cinco testes, um minuto.</h2>
+          <h2>Quer ajudar no diagnóstico? Teste o aparelho.</h2>
           <p class="intro">
-            Faça no aparelho que está com defeito. Nada é instalado e nada sai do seu celular: o resultado fica só nesta
-            página até você decidir enviar.
+            É opcional e leva um minuto. Faça no celular que está com defeito: nada é instalado, nada sai do aparelho, e o
+            resultado entra sozinho na sua mensagem de orçamento.
           </p>
 
           <ol class="tests">
@@ -88,7 +217,7 @@
             <li data-test="vibracao">
               <div class="t-name">
                 <h3>Vibração</h3>
-                <p>O aparelho vibra três vezes. Funciona no Android; o iPhone não deixa um site vibrar.</p>
+                <p>O aparelho vibra três vezes. No iPhone o site só consegue um toque leve.</p>
               </div>
               <p class="t-status" data-status>Não testado</p>
               <button class="btn btn-line" type="button" data-run="vibracao">Testar vibração</button>
@@ -102,84 +231,88 @@
               <button class="btn btn-line" type="button" data-run="bateria">Testar bateria</button>
             </li>
           </ol>
+          <p class="tests-foot">
+            <span id="tests-summary">Nenhum teste feito ainda.</span>
+            <a class="link" href="#orcamento">Ir para o orçamento</a>
+          </p>
+        </div>
+      </section>
 
-          <div class="report" id="laudo">
-            <div>
-              <h2>Laudo do seu aparelho</h2>
-              <p id="report-summary">Faça pelo menos um teste para montar o laudo.</p>
-              <ul id="report-list"></ul>
-            </div>
-            <form id="report-form" novalidate>
-              <label for="modelo">Modelo do aparelho</label>
-              <input id="modelo" name="modelo" type="text" autocomplete="off" placeholder="Ex.: Galaxy A54, iPhone 12" />
-              <p class="form-error" id="report-error" role="alert"></p>
-              <div class="report-actions">
-                <button class="btn btn-green" type="submit" id="report-send">Copiar laudo</button>
-                <button class="btn btn-ghost" type="button" id="report-reset">Refazer os testes</button>
+      <section class="quote" id="orcamento">
+        <div class="wrap">
+          <h2>Peça o seu orçamento.</h2>
+          <p class="quote-intro">
+            Marque o que está acontecendo. O site escreve a mensagem e você só confere e envia pelo WhatsApp.
+          </p>
+
+          <div class="quote-grid">
+            <form id="quote-form" novalidate>
+              <fieldset>
+                <legend>Marca</legend>
+                <div class="chips">
+                  <label><input type="radio" name="marca" value="Apple iPhone" /><span>Apple</span></label>
+                  <label><input type="radio" name="marca" value="Samsung" /><span>Samsung</span></label>
+                  <label><input type="radio" name="marca" value="Motorola" /><span>Motorola</span></label>
+                  <label><input type="radio" name="marca" value="Xiaomi" /><span>Xiaomi</span></label>
+                  <label><input type="radio" name="marca" value="" /><span>Outra</span></label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="modelo">Modelo</label>
+                <input id="modelo" name="modelo" type="text" autocomplete="off" placeholder="Ex.: Galaxy A54, iPhone 12, Moto G84" />
               </div>
-              <p class="note" id="report-note">
-                O laudo é uma triagem. O diagnóstico de verdade é feito com o aparelho aberto na bancada.
-              </p>
+
+              <fieldset>
+                <legend>O que está acontecendo</legend>
+                <div class="chips">
+                  <label><input type="checkbox" name="defeito" value="tela-trincada" /><span>Tela trincada</span></label>
+                  <label><input type="checkbox" name="defeito" value="toque" /><span>Toque falhando</span></label>
+                  <label><input type="checkbox" name="defeito" value="imagem" /><span>Manchas, linhas ou tela preta</span></label>
+                  <label><input type="checkbox" name="defeito" value="bateria" /><span>Bateria dura pouco</span></label>
+                  <label><input type="checkbox" name="defeito" value="carga" /><span>Não carrega</span></label>
+                  <label><input type="checkbox" name="defeito" value="nao-liga" /><span>Não liga</span></label>
+                  <label><input type="checkbox" name="defeito" value="agua" /><span>Molhou ou oxidou</span></label>
+                  <label><input type="checkbox" name="defeito" value="camera" /><span>Câmera com defeito</span></label>
+                  <label><input type="checkbox" name="defeito" value="som" /><span>Som ou microfone</span></label>
+                  <label><input type="checkbox" name="defeito" value="vibra" /><span>Não vibra</span></label>
+                  <label><input type="checkbox" name="defeito" value="lento" /><span>Travando ou reiniciando</span></label>
+                  <label><input type="checkbox" name="defeito" value="outro" /><span>Outro defeito</span></label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="detalhes">Quer contar mais alguma coisa? <span class="opt">Opcional</span></label>
+                <textarea id="detalhes" name="detalhes" rows="3" placeholder="Ex.: caiu ontem, a tela acende mas o toque não responde no canto de baixo."></textarea>
+              </div>
+
+              <div class="field">
+                <label for="nome">Seu nome <span class="opt">Opcional</span></label>
+                <input id="nome" name="nome" type="text" autocomplete="given-name" />
+              </div>
             </form>
+
+            <div class="message">
+              <h3>Sua mensagem</h3>
+              <p class="bubble" id="quote-preview" aria-live="polite"></p>
+              <p class="form-error" id="quote-error" role="alert"></p>
+              <div class="quote-actions">
+                <button class="btn btn-green" type="submit" form="quote-form" id="quote-send">Enviar pelo WhatsApp</button>
+                <button class="btn btn-ghost" type="button" id="quote-copy">Copiar mensagem</button>
+              </div>
+              <p class="note" id="quote-note">Não informe senhas. O site não guarda nada: a mensagem vai direto para a conversa.</p>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section class="block" id="servicos">
-        <div class="wrap">
-          <h2>O que a CellFix conserta.</h2>
-          <dl class="services">
-            <div>
-              <dt>Troca de tela</dt>
-              <dd>Vidro trincado, toque que falha, manchas, linhas ou tela preta.</dd>
-            </div>
-            <div>
-              <dt>Troca de bateria</dt>
-              <dd>Carga que acaba cedo, aparelho que desliga sozinho ou bateria estufada.</dd>
-            </div>
-            <div>
-              <dt>Limpeza técnica</dt>
-              <dd>Poeira, oxidação e sujeira em conector, alto-falante e placa.</dd>
-            </div>
-            <div>
-              <dt>Câmera</dt>
-              <dd>Foto embaçada, foco que não trava, lente quebrada.</dd>
-            </div>
-            <div>
-              <dt>Conector de carga</dt>
-              <dd>Cabo que só funciona em uma posição ou aparelho que não carrega.</dd>
-            </div>
-            <div>
-              <dt>Sistema</dt>
-              <dd>Travamentos, reinício em loop e aparelho preso na tela de início.</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-
-      <section class="block" id="como-funciona">
-        <div class="wrap">
-          <h2>Como funciona.</h2>
-          <ol class="steps">
-            <li>
-              <h3>Diagnóstico</h3>
-              <p>Você traz o aparelho e o laudo do site. A gente abre, confirma o defeito e passa o valor.</p>
-            </li>
-            <li>
-              <h3>Reparo</h3>
-              <p>Com o seu aceite, fazemos o conserto e repetimos os mesmos testes desta página.</p>
-            </li>
-            <li>
-              <h3>Entrega</h3>
-              <p>Você confere o aparelho funcionando antes de pagar e leva a garantia do serviço.</p>
-            </li>
-          </ol>
         </div>
       </section>
 
       <section class="block" id="duvidas">
         <div class="wrap narrow">
           <h2>Dúvidas.</h2>
+          <details>
+            <summary>Preciso fazer o teste para pedir orçamento?</summary>
+            <p>Não. Basta marcar o que está acontecendo e enviar. O teste só ajuda a equipe a chegar mais perto do defeito.</p>
+          </details>
           <details>
             <summary>O teste do site substitui o diagnóstico da assistência?</summary>
             <p>
@@ -188,8 +321,8 @@
             </p>
           </details>
           <details>
-            <summary>Meu celular não liga. Como faço o teste?</summary>
-            <p>Não precisa. Chame a CellFix, diga o modelo e conte o que aconteceu antes de ele apagar.</p>
+            <summary>Meu celular não liga. O que eu faço?</summary>
+            <p>Marque “Não liga” no orçamento, informe o modelo e conte o que aconteceu antes de ele apagar.</p>
           </details>
           <details>
             <summary>O site guarda alguma informação do meu aparelho?</summary>
@@ -200,7 +333,7 @@
           </details>
           <details>
             <summary>Preciso fazer backup antes de levar?</summary>
-            <p>Se o aparelho ainda liga, faça. Troca de tela e de bateria não apagam dados, mas backup nunca é demais.</p>
+            <p>Se o aparelho ainda liga, faça. A equipe orienta sobre dados pessoais e acessos necessários no atendimento.</p>
           </details>
           <details>
             <summary>Quais são as formas de pagamento?</summary>
@@ -211,7 +344,7 @@
 
       <section class="contact" id="contato">
         <div class="wrap">
-          <h2>Leve o laudo. A gente cuida do resto.</h2>
+          <h2>Seu mundo não pode parar. Fale com a CellFix.</h2>
           <dl class="facts">
             <div>
               <dt>Onde</dt>
@@ -227,7 +360,7 @@
             </div>
           </dl>
           <p class="hero-actions">
-            <a class="btn btn-green" href="#teste" id="contact-cta">Fazer o teste</a>
+            <a class="btn btn-green" href="#orcamento">Pedir orçamento</a>
             <a class="link" href="https://www.google.com/maps/search/?api=1&query=Pi%C3%BAma+ES" rel="noopener" target="_blank"
               >Ver Piúma no mapa</a
             >
@@ -238,10 +371,12 @@
 
     <footer class="foot">
       <div class="wrap">
-        <p>CellFix, assistência técnica de celulares.</p>
+        <p>CellFix, assistência técnica de celulares. Piúma – ES.</p>
         <p><a href="#inicio">Voltar ao início</a></p>
       </div>
     </footer>
+
+    <a class="btn btn-green fab" id="fab" href="#orcamento" hidden>Pedir orçamento</a>
 
     <!-- Palco dos testes em tela cheia -->
     <div class="stage" id="stage" hidden>
@@ -249,7 +384,7 @@
       <div class="stage-ui" id="stage-ui"></div>
     </div>
 
-    <noscript><p class="noscript">Os testes precisam de JavaScript. O restante da página funciona normalmente.</p></noscript>
+    <noscript><p class="noscript">O orçamento e os testes precisam de JavaScript. O restante da página funciona normalmente.</p></noscript>
     <script src="app.js" defer></script>
   </body>
 </html>

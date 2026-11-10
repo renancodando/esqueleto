@@ -3,7 +3,7 @@
   'use strict';
 
   // Preencha com o WhatsApp da loja: país + DDD + número, só dígitos (ex.: '5528999990000').
-  // Enquanto estiver vazio, o botão do laudo copia a mensagem em vez de abrir a conversa.
+  // Enquanto estiver vazio, o WhatsApp abre com a mensagem pronta e pede para escolher o contato.
   const CONFIG = { whatsapp: '' };
 
   const GREEN = '#00c566';
@@ -149,36 +149,36 @@
   });
 
   /* ------------------------------------------------------------------
-     Resultados e laudo
+     Resultados dos testes (opcionais)
      ------------------------------------------------------------------ */
+  // defeito: a opção do orçamento que um teste reprovado marca sozinho
   const TESTS = {
-    toque: { name: 'Toque', service: 'Troca de tela' },
-    pixels: { name: 'Pixels', service: 'Troca de tela' },
-    som: { name: 'Som', service: 'Reparo do alto-falante' },
-    vibracao: { name: 'Vibração', service: 'Reparo do motor de vibração' },
-    bateria: { name: 'Bateria', service: 'Troca de bateria' },
+    toque: { name: 'Toque', defeito: 'toque' },
+    pixels: { name: 'Pixels', defeito: 'imagem' },
+    som: { name: 'Som', defeito: 'som' },
+    vibracao: { name: 'Vibração', defeito: 'vibra' },
+    bateria: { name: 'Bateria', defeito: 'bateria' },
   };
   const ORDER = Object.keys(TESTS);
   let results = {};
   try {
-    results = JSON.parse(sessionStorage.getItem('cellfix-laudo') || '{}') || {};
+    results = JSON.parse(sessionStorage.getItem('cellfix-testes') || '{}') || {};
   } catch (e) {
     results = {};
   }
 
-  const summary = $('#report-summary');
-  const list = $('#report-list');
-  const sendBtn = $('#report-send');
-  const errorEl = $('#report-error');
-  const SEND_LABEL = CONFIG.whatsapp ? 'Enviar laudo pelo WhatsApp' : 'Copiar laudo';
+  const testsSummary = $('#tests-summary');
 
   function setResult(id, value) {
-    if (value) results[id] = value;
-    else delete results[id];
+    results[id] = value;
     try {
-      sessionStorage.setItem('cellfix-laudo', JSON.stringify(results));
+      sessionStorage.setItem('cellfix-testes', JSON.stringify(results));
     } catch (e) {
-      /* navegação privada: o laudo vale só enquanto a página estiver aberta */
+      /* navegação privada: o resultado vale só enquanto a página estiver aberta */
+    }
+    if (value === 'falha') {
+      const box = $(`#quote-form input[name="defeito"][value="${TESTS[id].defeito}"]`);
+      if (box) box.checked = true;
     }
     render();
   }
@@ -192,39 +192,79 @@
       $('[data-status]', li).textContent = r === 'ok' ? 'Passou' : r === 'falha' ? 'Falhou' : 'Não testado';
       $('[data-run]', li).textContent = r ? 'Repetir teste' : `Testar ${TESTS[id].name.toLowerCase()}`;
     });
-
     const done = ORDER.filter((id) => results[id]);
     const failed = done.filter((id) => results[id] === 'falha');
-    list.innerHTML = '';
-    done.forEach((id) => {
-      const li = document.createElement('li');
-      li.dataset.result = results[id];
-      li.textContent = TESTS[id].name;
-      const span = document.createElement('span');
-      span.textContent = results[id] === 'ok' ? 'funcionando' : TESTS[id].service;
-      li.append(span);
-      list.append(li);
-    });
-
-    if (!done.length) summary.textContent = 'Faça pelo menos um teste para montar o laudo.';
-    else if (!failed.length)
-      summary.textContent = `${done.length} de ${ORDER.length} testes feitos, todos passaram. Se o defeito continua, ele está em algo que só a bancada mostra.`;
-    else {
-      const services = [...new Set(failed.map((id) => TESTS[id].service))];
-      summary.textContent = `${failed.length} de ${done.length} testes falharam. Serviço provável: ${services.join(' e ')}.`;
-    }
-    errorEl.textContent = '';
-    sendBtn.textContent = SEND_LABEL;
+    testsSummary.textContent = !done.length
+      ? 'Nenhum teste feito ainda.'
+      : `${done.length} de ${ORDER.length} testes feitos, ${failed.length ? failed.length + (failed.length === 1 ? ' falhou' : ' falharam') : 'todos passaram'}. O resultado já está na sua mensagem.`;
+    updateMessage();
   }
 
-  function reportText(model) {
+  /* ------------------------------------------------------------------
+     Orçamento: o site escreve a mensagem do WhatsApp
+     ------------------------------------------------------------------ */
+  const form = $('#quote-form');
+  const preview = $('#quote-preview');
+  const errorEl = $('#quote-error');
+  const copyBtn = $('#quote-copy');
+
+  function formData() {
+    const marca = (form.querySelector('input[name="marca"]:checked') || {}).value || '';
+    const modelo = form.modelo.value.trim();
+    return {
+      aparelho: [marca, modelo].filter(Boolean).join(' '),
+      marcaEscolhida: !!form.querySelector('input[name="marca"]:checked'),
+      modelo,
+      defeitos: [...form.querySelectorAll('input[name="defeito"]:checked')].map((i) => i.nextElementSibling.textContent),
+      detalhes: form.detalhes.value.trim(),
+      nome: form.nome.value.trim(),
+    };
+  }
+
+  function buildMessage() {
+    const d = formData();
     const names = (v) => ORDER.filter((id) => results[id] === v).map((id) => TESTS[id].name.toLowerCase());
-    const skipped = ORDER.filter((id) => !results[id]).map((id) => TESTS[id].name.toLowerCase());
-    const lines = ['Olá, CellFix! Fiz o teste do site.', `Aparelho: ${model}`];
-    if (names('falha').length) lines.push(`Falhou: ${names('falha').join(', ')}`);
-    if (names('ok').length) lines.push(`Passou: ${names('ok').join(', ')}`);
-    if (skipped.length) lines.push(`Não testei: ${skipped.join(', ')}`);
+    const failed = names('falha'), passed = names('ok');
+    if (!d.aparelho && !d.defeitos.length && !d.detalhes && !d.nome && !failed.length && !passed.length) return '';
+
+    const lines = [`Olá, CellFix!${d.nome ? ` Meu nome é ${d.nome}.` : ''}`];
+    lines.push(d.aparelho ? `Quero um orçamento para o meu ${d.aparelho}.` : 'Quero um orçamento para o meu celular.');
+    if (d.defeitos.length) {
+      lines.push('', 'O que está acontecendo:');
+      d.defeitos.forEach((t) => lines.push(`• ${t}`));
+    }
+    if (d.detalhes) lines.push('', `Detalhes: ${d.detalhes}`);
+    if (failed.length || passed.length) {
+      lines.push('', 'Teste que fiz no site da CellFix:');
+      if (failed.length) lines.push(`• Falhou: ${failed.join(', ')}`);
+      if (passed.length) lines.push(`• Passou: ${passed.join(', ')}`);
+    }
+    lines.push('', 'Podem me passar o valor e o prazo?');
     return lines.join('\n');
+  }
+
+  function updateMessage() {
+    const text = buildMessage();
+    preview.textContent = text || 'Escolha a marca e marque o defeito. A mensagem aparece aqui, pronta para enviar.';
+    preview.classList.toggle('empty', !text);
+    if (text) errorEl.textContent = '';
+  }
+
+  // devolve a mensagem ou explica o que falta
+  function validMessage() {
+    const d = formData();
+    if (!d.modelo && !d.marcaEscolhida) {
+      errorEl.textContent = 'Falta o aparelho. Escolha a marca ou escreva o modelo.';
+      form.modelo.focus();
+      return null;
+    }
+    if (!d.defeitos.length && !d.detalhes) {
+      errorEl.textContent = 'Falta o defeito. Marque uma opção ou conte o que aconteceu.';
+      form.querySelector('input[name="defeito"]').focus();
+      return null;
+    }
+    errorEl.textContent = '';
+    return buildMessage();
   }
 
   async function copy(text) {
@@ -249,47 +289,43 @@
     }
   }
 
-  $('#report-form').addEventListener('submit', async (e) => {
+  form.addEventListener('input', updateMessage);
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const input = $('#modelo');
-    const model = input.value.trim();
-    if (!ORDER.some((id) => results[id])) {
-      errorEl.textContent = 'O laudo está vazio. Faça pelo menos um teste antes de enviar.';
-      return;
-    }
-    if (!model) {
-      errorEl.textContent = 'Falta o modelo do aparelho. Ele costuma estar em Configurações, Sobre o telefone.';
-      input.focus();
-      return;
-    }
-    errorEl.textContent = '';
-    const text = reportText(model);
-    if (CONFIG.whatsapp) {
-      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-      return;
-    }
+    const text = validMessage();
+    if (!text) return;
+    // sem número configurado, o WhatsApp abre e pede para escolher o contato
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+  });
+  copyBtn.addEventListener('click', async () => {
+    const text = validMessage();
+    if (!text) return;
     if (await copy(text)) {
-      sendBtn.textContent = 'Laudo copiado';
-      setTimeout(() => (sendBtn.textContent = SEND_LABEL), 2500);
+      copyBtn.textContent = 'Mensagem copiada';
+      setTimeout(() => (copyBtn.textContent = 'Copiar mensagem'), 2500);
     } else {
-      errorEl.textContent = 'O navegador bloqueou a cópia. Selecione e copie o texto: ' + text.replace(/\n/g, ' | ');
+      errorEl.textContent = 'O navegador bloqueou a cópia. Selecione o texto da mensagem e copie à mão.';
     }
   });
 
-  $('#report-reset').addEventListener('click', () => {
-    results = {};
-    setResult();
-    $('#teste').scrollIntoView();
-  });
+  // "Orçar troca de tela" na lista de serviços já deixa o defeito marcado
+  document.querySelectorAll('a[data-defeito]').forEach((a) =>
+    a.addEventListener('click', () => {
+      const box = form.querySelector(`input[name="defeito"][value="${a.dataset.defeito}"]`);
+      if (box) box.checked = true;
+      updateMessage();
+    })
+  );
 
-  if (CONFIG.whatsapp) {
-    const cta = $('#contact-cta');
-    cta.textContent = 'Chamar no WhatsApp';
-    cta.href = `https://wa.me/${CONFIG.whatsapp}`;
-    cta.target = '_blank';
-    cta.rel = 'noopener';
-  } else {
-    $('#report-note').textContent += ' Copie o laudo e mostre na loja.';
+  // botão fixo: aparece fora da abertura e some quando o orçamento está na tela
+  const fab = $('#fab');
+  if ('IntersectionObserver' in window) {
+    const seen = new Map();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => seen.set(en.target.id, en.isIntersecting));
+      fab.hidden = !!(seen.get('inicio') || seen.get('orcamento') || seen.get('contato'));
+    });
+    ['inicio', 'orcamento', 'contato'].forEach((id) => io.observe(document.getElementById(id)));
   }
 
   /* ------------------------------------------------------------------
@@ -359,7 +395,7 @@
 
   function seeReport() {
     close();
-    $('#laudo').scrollIntoView();
+    $('#orcamento').scrollIntoView();
   }
 
   function finish(id, value) {
@@ -371,10 +407,10 @@
     show([
       card(
         ['h2', `${TESTS[id].name}: ${value === 'ok' ? 'passou' : 'falhou'}.`],
-        ['p', value === 'ok' ? 'Resultado anotado no laudo.' : `Anotado no laudo. Serviço provável: ${TESTS[id].service.toLowerCase()}.`],
+        ['p', value === 'ok' ? 'Resultado anotado na sua mensagem de orçamento.' : 'Anotado na sua mensagem de orçamento, com o defeito já marcado.'],
         actions(
-          next ? btn(`Testar ${TESTS[next].name.toLowerCase()}`, 'btn-green full', () => run(next)) : btn('Ver o laudo', 'btn-green full', seeReport),
-          next ? btn('Ver o laudo', 'btn-ghost full', seeReport) : btn('Fechar', 'btn-ghost full', close)
+          next ? btn(`Testar ${TESTS[next].name.toLowerCase()}`, 'btn-green full', () => run(next)) : btn('Ir para o orçamento', 'btn-green full', seeReport),
+          next ? btn('Ir para o orçamento', 'btn-ghost full', seeReport) : btn('Fechar', 'btn-ghost full', close)
         )
       ),
     ]);
@@ -488,15 +524,30 @@
     },
 
     vibracao() {
-      const can = typeof navigator.vibrate === 'function';
+      const android = typeof navigator.vibrate === 'function';
       show([
         card(
-          ['h2', can ? 'O aparelho vibrou?' : 'Este navegador não deixa testar.'],
-          ['p', can ? 'Segure o celular na mão e toque em vibrar. São três pulsos.' : 'O iPhone e alguns navegadores bloqueiam a vibração em sites. Se você sabe como está a vibração, marque abaixo.'],
+          ['h2', 'O aparelho vibrou?'],
+          [
+            'p',
+            android
+              ? 'Segure o celular na mão e toque em vibrar. São três pulsos longos.'
+              : 'O iPhone não deixa um site ligar a vibração. Dá para pedir só um toque leve, parecido com o do teclado.',
+            { id: 'vib-info', 'aria-live': 'polite' },
+          ],
           actions(
-            ...(can ? [btn('Vibrar agora', 'btn-line full', () => navigator.vibrate([250, 120, 250, 120, 500]))] : []),
-            btn(can ? 'Sim, vibrou' : 'Vibra normalmente', 'btn-green', () => finish('vibracao', 'ok')),
-            btn(can ? 'Não vibrou' : 'Não vibra', 'btn-red', () => finish('vibracao', 'falha')),
+            btn(android ? 'Vibrar agora' : 'Tentar toque leve', 'btn-line full', () => {
+              const info = $('#vib-info');
+              const how = buzz();
+              if (how === 'recusado')
+                info.textContent = 'O navegador recusou a vibração. Abra o site no Chrome, fora do Instagram ou do WhatsApp, e tente de novo.';
+              else if (how === 'vibrar')
+                info.textContent = 'Pedido enviado ao aparelho. Não sentiu nada? Confira se o modo silencioso, o Não Perturbe ou a economia de bateria estão ligados e se a vibração ao toque está ativada nas configurações. Com tudo certo e sem vibrar, o motor está com defeito.';
+              else
+                info.textContent = 'Toque leve enviado. Se não sentiu, confira em Ajustes, Sons e Tátil se a vibração está ligada, e teste por lá.';
+            }),
+            btn('Sim, vibrou', 'btn-green', () => finish('vibracao', 'ok')),
+            btn('Não vibrou', 'btn-red', () => finish('vibracao', 'falha')),
             skip('vibracao')
           )
         ),
@@ -529,6 +580,28 @@
         .catch(fallback);
     },
   };
+
+  // Android: Vibration API. iPhone: não existe; alternar um interruptor nativo gera um toque háptico leve.
+  function buzz() {
+    if (typeof navigator.vibrate === 'function') {
+      return navigator.vibrate([500, 200, 500, 200, 900]) ? 'vibrar' : 'recusado';
+    }
+    try {
+      const label = document.createElement('label');
+      label.style.cssText = 'position:fixed;left:-99px;top:0;opacity:0;pointer-events:none';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.setAttribute('switch', '');
+      label.append(input);
+      document.body.append(label);
+      label.click();
+      [120, 240].forEach((ms) => setTimeout(() => label.click(), ms));
+      setTimeout(() => label.remove(), 600);
+    } catch (e) {
+      /* sem suporte: fica só a pergunta */
+    }
+    return 'haptico';
+  }
 
   let audio;
   function tone(pan) {

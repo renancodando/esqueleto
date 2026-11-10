@@ -148,6 +148,10 @@ a {
   border-color: var(--green);
   color: var(--black);
 }
+.btn-small {
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+}
 .btn-red {
   background: var(--red);
   border-color: var(--red);
@@ -206,17 +210,17 @@ a {
 }
 .hero-copy {
   position: relative;
-  max-width: 46rem;
+  max-width: 60rem;
   pointer-events: none;
 }
 .hero-copy a {
   pointer-events: auto;
 }
 h1 {
-  font-size: clamp(3.2rem, 10.5vw, 8.5rem);
+  font-size: clamp(2.9rem, 8.2vw, 7rem);
   font-weight: 800;
   font-stretch: 75%;
-  line-height: 0.88;
+  line-height: 0.9;
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
@@ -245,8 +249,13 @@ h1 {
   gap: 1rem 1.5rem;
 }
 .meter {
+  margin-top: 1.5rem;
   font-size: 0.95rem;
   font-weight: 500;
+  color: var(--mute);
+}
+.meter strong {
+  color: var(--black);
 }
 .meter strong {
   display: inline-block;
@@ -340,79 +349,144 @@ li[data-result='falha'] .t-status::before {
   width: 100%;
 }
 
-/* --- laudo: tela preta, como um pixel desligado -------------------- */
-.report {
-  margin-top: 3.5rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 2.5rem 4rem;
-  padding: clamp(1.75rem, 4vw, 3.25rem);
+/* --- rodapé da lista de testes ----------------------------------- */
+.tests-foot {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  font-weight: 600;
+}
+
+/* --- orçamento: tela preta, como um pixel desligado ---------------- */
+.quote {
+  padding: clamp(4rem, 10vw, 7.5rem) 0;
   background: var(--black);
   color: var(--white);
 }
-.report h2 {
-  font-size: clamp(1.9rem, 4vw, 3rem);
-}
-#report-summary {
-  margin-top: 1rem;
-  color: #c3c9d1;
-}
-#report-list {
+.quote-intro {
   margin-top: 1.25rem;
-}
-#report-list li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.55rem 0;
-  border-top: 1px solid #2c3036;
-}
-#report-list li::before {
-  content: '';
-  width: 0.8rem;
-  height: 0.8rem;
-  flex: none;
-  background: var(--green);
-}
-#report-list li[data-result='falha']::before {
-  background: var(--red);
-}
-#report-list span {
-  margin-left: auto;
+  max-width: 38rem;
   color: #c3c9d1;
-  text-align: right;
 }
-#report-form label {
+.quote-grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 3rem 4rem;
+  align-items: start;
+}
+#quote-form {
+  display: grid;
+  gap: 1.75rem;
+}
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+legend,
+.field label {
   display: block;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.6rem;
+  padding: 0;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
 }
-#report-form input {
+.opt {
+  margin-left: 0.4rem;
+  font-weight: 400;
+  color: #8b929c;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chips label {
+  position: relative;
+  cursor: pointer;
+}
+.chips input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+/* cada opção é uma célula da grade: marcada, fica verde */
+.chips span {
+  display: block;
+  padding: 0.6rem 0.9rem;
+  border: 2px solid #4a5059;
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+.chips input:checked + span {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--black);
+}
+.chips input:focus-visible + span {
+  outline: 3px solid var(--white);
+  outline-offset: 2px;
+}
+.field input,
+.field textarea {
   width: 100%;
   padding: 0.9rem 1rem;
-  border: 2px solid var(--white);
+  border: 2px solid #4a5059;
   border-radius: 0;
   background: var(--black);
   color: var(--white);
   font: inherit;
+  resize: vertical;
 }
-#report-form input::placeholder {
+.field input::placeholder,
+.field textarea::placeholder {
   color: #8b929c;
 }
-#report-form input:focus {
-  outline: 3px solid var(--green);
-  outline-offset: 2px;
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--green);
+  outline: none;
+}
+.message {
+  position: sticky;
+  top: 1.5rem;
+}
+.message h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-stretch: 100%;
+  letter-spacing: 0;
+}
+.bubble {
+  margin-top: 0.6rem;
+  padding: 1.25rem 1.4rem;
+  background: var(--white);
+  color: var(--black);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+  line-height: 1.45;
+  min-height: 9rem;
+}
+.bubble.empty {
+  color: var(--mute);
 }
 .form-error {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   color: #ff8a82;
   font-size: 0.95rem;
+  font-weight: 600;
 }
 .form-error:empty {
   display: none;
 }
-.report-actions {
+.quote-actions {
   margin-top: 1.25rem;
   display: flex;
   flex-wrap: wrap;
@@ -431,19 +505,74 @@ li[data-result='falha'] .t-status::before {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 4rem;
 }
-.services div {
+.services li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.3rem 1.5rem;
   padding: 1.4rem 0;
   border-top: 2px solid var(--black);
 }
-.services dt {
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-stretch: 87%;
-  letter-spacing: -0.01em;
+.services p {
+  grid-column: 1;
+  color: var(--mute);
 }
-.services dd {
+.services a {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-underline-offset: 0.3em;
+  white-space: nowrap;
+}
+.services .unsure h3,
+.services .unsure p {
+  color: var(--blue);
+}
+
+/* --- sobre --------------------------------------------------------- */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem 5rem;
+  align-items: start;
+}
+.split .intro {
+  color: var(--black);
+  font-size: 1.125rem;
+}
+.principles li {
+  padding: 1.4rem 0;
+  border-top: 2px solid var(--black);
+}
+.principles li:last-child {
+  border-bottom: 2px solid var(--black);
+}
+.principles p,
+.pillars p {
   margin-top: 0.3rem;
   color: var(--mute);
+}
+
+/* --- garantia ------------------------------------------------------ */
+.pillars {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem 2.5rem;
+}
+.pillars li {
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--black);
+}
+/* a célula verde: a mesma do teste de toque, aqui como "conferido" */
+.pillars li::before {
+  content: '';
+  display: block;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-bottom: 0.9rem;
+  background: var(--green);
 }
 
 /* --- como funciona ------------------------------------------------- */
@@ -562,6 +691,20 @@ details p {
   font-weight: 600;
 }
 
+/* --- botão fixo de orçamento ---------------------------------------- */
+.fab {
+  position: fixed;
+  z-index: 20;
+  right: 1rem;
+  bottom: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  border-color: var(--black);
+  box-shadow: 4px 4px 0 var(--black);
+}
+.fab[hidden] {
+  display: none;
+}
+
 /* --- palco dos testes ---------------------------------------------- */
 .stage {
   position: fixed;
@@ -673,16 +816,21 @@ details p {
   .tests .btn {
     grid-column: 2;
   }
-  .report,
+  .quote-grid,
+  .split,
   .services,
   .steps,
   .facts {
     grid-template-columns: 1fr;
   }
-  .report {
-    margin-left: calc(var(--pad) * -1);
-    margin-right: calc(var(--pad) * -1);
-    padding: 2rem var(--pad);
+  .pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .message {
+    position: static;
+  }
+  .top .btn-small {
+    display: none;
   }
   .steps {
     gap: 1.75rem;
